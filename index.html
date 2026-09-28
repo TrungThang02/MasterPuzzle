@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Spot the Difference - Master Puzzle Odyssey</title>
+    <meta name="description" content="A premium HTML5 spot the difference puzzle game featuring 100 handcrafted levels, synchronized dual-canvas zoom, sound synthesizer, and daily challenges.">
+    <meta name="theme-color" content="#030712">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for ultra-clean modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Animated Glow Spheres -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <div id="game-app">
+        <!-- ================================================================= -->
+        <!-- SCREEN 1: MAIN MENU                                               -->
+        <!-- ================================================================= -->
+        <section id="screen-menu" class="screen active">
+            <div class="menu-container">
+                <header class="menu-header">
+                    <div class="game-badge">PUZZLE ODYSSEY</div>
+                    <h1 class="game-logo">Spot The <span class="accent-text">Difference</span></h1>
+                    <p class="game-tagline">Test your observation skills across 100 beautifully handcrafted levels</p>
+                </header>
+
+                <div class="menu-modes">
+                    <button id="btn-play-classic" class="btn btn-primary btn-glow">
+                        <span class="btn-icon">⚡</span>
+                        <div class="btn-text">
+                            <span class="btn-title">Classic Mode</span>
+                            <span class="btn-desc">Timed challenge with 3-star ratings</span>
+                        </div>
+                    </button>
+
+                    <button id="btn-mode-relax" class="btn btn-secondary">
+                        <span class="btn-icon">☕</span>
+                        <div class="btn-text">
+                            <span class="btn-title">Relax Mode</span>
+                            <span class="btn-desc">No timer, unlimited hints & calm play</span>
+                        </div>
+                    </button>
+
+                    <button id="btn-daily-challenge" class="btn btn-special">
+                        <span class="btn-icon">🌟</span>
+                        <div class="btn-text">
+                            <span class="btn-title">Daily Challenge</span>
+                            <span class="btn-desc">Today's featured puzzle & streak rewards</span>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="menu-quick-links">
+                    <button id="btn-menu-levels" class="btn-icon-label">
+                        <span class="icon">🗺️</span>
+                        <span>Level Select</span>
+                    </button>
+                    <button id="btn-menu-achievements" class="btn-icon-label">
+                        <span class="icon">🏆</span>
+                        <span>Achievements</span>
+                    </button>
+                    <button id="btn-menu-how-to-play" class="btn-icon-label">
+                        <span class="icon">📖</span>
+                        <span>How to Play</span>
+                    </button>
+                    <button id="btn-menu-settings" class="btn-icon-label">
+                        <span class="icon">⚙️</span>
+                        <span>Settings</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- SCREEN 2: LEVEL SELECT                                            -->
+        <!-- ================================================================= -->
+        <section id="screen-level-select" class="screen">
+            <div class="screen-header">
+                <button class="btn-back btn-back-menu" title="Return to Menu">‹ Back</button>
+                <h2>Select a Level (100 Levels)</h2>
+                <div class="header-spacer"></div>
+            </div>
+            <div class="levels-container">
+                <div class="level-select-stats-bar" id="level-select-stats">
+                    <span id="stat-unlocked-count">🔓 1 / 100 Unlocked</span>
+                    <span id="stat-stars-count">⭐ 0 / 300 Stars</span>
+                    <span id="stat-diffs-count">🔍 0 Found</span>
+                </div>
+                <div class="level-tabs" id="level-tier-tabs">
+                    <button class="tier-tab active" data-tier="all">All (1-100)</button>
+                    <button class="tier-tab" data-tier="novice">Novice (1-25)</button>
+                    <button class="tier-tab" data-tier="apprentice">Apprentice (26-50)</button>
+                    <button class="tier-tab" data-tier="master">Master (51-75)</button>
+                    <button class="tier-tab" data-tier="grandmaster">Grandmaster (76-100)</button>
+                </div>
+                <div id="level-grid" class="level-grid">
+                    <!-- Populated dynamically via game.js -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- SCREEN 3: ACHIEVEMENTS                                            -->
+        <!-- ================================================================= -->
+        <section id="screen-achievements" class="screen">
+            <div class="screen-header">
+                <button class="btn-back btn-back-menu" title="Return to Menu">‹ Back</button>
+                <h2>Trophy Gallery</h2>
+                <div class="header-spacer"></div>
+            </div>
+            <div class="achievements-container">
+                <div id="achievements-list" class="achievements-list">
+                    <!-- Populated dynamically via game.js -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- SCREEN 4: IN-GAME PLAYING                                         -->
+        <!-- ================================================================= -->
+        <section id="screen-game" class="screen">
+            <!-- In-game Navigation / Top HUD -->
+            <header class="game-hud">
+                <div class="hud-left">
+                    <button class="btn-hud-icon btn-back-menu" title="Return to Menu">‹</button>
+                    <div class="hud-level-info">
+                        <h3 id="hud-level-title">Level 1: Cozy Living Room</h3>
+                        <div class="progress-bar-wrapper">
+                            <div class="progress-bar">
+                                <div id="hud-progress-fill" class="progress-fill" style="width: 0%;"></div>
+                            </div>
+                            <span id="hud-diff-count" class="hud-counter">0 / 5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hud-center">
+                    <div id="hud-timer-container" class="hud-stat-badge">
+                        <span class="stat-icon">⏱️</span>
+                        <span id="hud-timer" class="stat-value">2:00</span>
+                    </div>
+                    <div class="hud-stat-badge">
+                        <span class="stat-icon">⭐</span>
+                        <span id="hud-score" class="stat-value">0</span>
+                    </div>
+                </div>
+
+                <div class="hud-right">
+                    <!-- Mobile View Mode Toggle (Stacked vs Focus/Compare) -->
+                    <button id="btn-view-mode" class="btn-hud-icon btn-view-mode" title="Toggle Mobile View Mode">
+                        <span id="view-mode-icon">🔀</span>
+                    </button>
+
+                    <!-- Fullscreen Toggle Button -->
+                    <button id="btn-fullscreen" class="btn-hud-icon btn-fullscreen-toggle" title="Toggle Fullscreen">⛶</button>
+
+                    <!-- Zoom & Pan Controls -->
+                    <div class="zoom-controls">
+                        <button id="btn-zoom-in" class="btn-hud-tool" title="Zoom In">+</button>
+                        <button id="btn-zoom-out" class="btn-hud-tool" title="Zoom Out">−</button>
+                        <button id="btn-zoom-reset" class="btn-hud-tool" title="Reset Zoom">⟲</button>
+                    </div>
+
+                    <!-- Hint Button -->
+                    <button id="btn-hint" class="btn-hint" title="Use a Hint">
+                        <span class="hint-icon">🔍</span>
+                        <span class="hint-text">Hint</span>
+                        <span id="hud-hint-badge" class="badge-count">3</span>
+                    </button>
+
+                    <!-- Pause Button -->
+                    <button id="btn-pause" class="btn-hud-icon" title="Pause Game">⏸</button>
+                </div>
+            </header>
+
+            <!-- Dual Canvas Play Area -->
+            <main class="dual-canvas-container" id="dual-canvas-container">
+                <!-- Left/Top: Original Illustration -->
+                <div id="wrapper-original" class="canvas-wrapper">
+                    <div class="canvas-label">ORIGINAL</div>
+                    <canvas id="canvas-original"></canvas>
+                </div>
+
+                <!-- Right/Bottom: Modified Illustration -->
+                <div id="wrapper-modified" class="canvas-wrapper">
+                    <div class="canvas-label modified">MODIFIED</div>
+                    <canvas id="canvas-modified"></canvas>
+                </div>
+
+                <!-- Mobile Floating Controls (Peek & Zoom Reset) -->
+                <div id="mobile-floating-controls" class="mobile-floating-controls">
+                    <button id="btn-peek-original" class="btn-floating-peek" title="Hold to Peek Original">
+                        <span>👁️ Hold to Peek</span>
+                    </button>
+                    <button id="btn-mobile-reset-zoom" class="btn-floating-zoom" title="Reset Zoom" style="display: none;">
+                        <span>⟲ Reset Zoom</span>
+                    </button>
+                </div>
+            </main>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- MODALS & OVERLAYS                                                 -->
+        <!-- ================================================================= -->
+
+        <!-- Victory Modal -->
+        <div id="modal-victory" class="modal-overlay">
+            <div class="modal-card victory-card">
+                <div class="victory-ribbon">LEVEL COMPLETED!</div>
+                <h3 id="victory-level-name">Level 1: Cozy Living Room</h3>
+                
+                <div id="victory-stars-row" class="stars-celebration">
+                    <span class="star-icon active">★</span>
+                    <span class="star-icon active">★</span>
+                    <span class="star-icon active">★</span>
+                </div>
+
+                <div class="stats-summary-grid">
+                    <div class="summary-box">
+                        <span class="summary-label">Final Score</span>
+                        <span id="victory-score" class="summary-val">1,250</span>
+                    </div>
+                    <div class="summary-box">
+                        <span class="summary-label">Completion Time</span>
+                        <span id="victory-time" class="summary-val">42s</span>
+                    </div>
+                    <div class="summary-box">
+                        <span class="summary-label">Mistakes</span>
+                        <span id="victory-mistakes" class="summary-val">0</span>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button id="btn-victory-next" class="btn btn-primary btn-glow">Next Level ›</button>
+                    <button id="btn-victory-replay" class="btn btn-secondary">Replay ⟲</button>
+                    <button class="btn btn-outline btn-back-menu">Main Menu</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over Modal -->
+        <div id="modal-gameover" class="modal-overlay">
+            <div class="modal-card">
+                <div class="gameover-icon">⌛</div>
+                <h2>Time's Up!</h2>
+                <p>You ran out of time before spotting all the hidden differences.</p>
+
+                <div class="stats-summary-grid">
+                    <div class="summary-box">
+                        <span class="summary-label">Found</span>
+                        <span id="gameover-found" class="summary-val">3 / 5</span>
+                    </div>
+                    <div class="summary-box">
+                        <span class="summary-label">Points</span>
+                        <span id="gameover-score" class="summary-val">350</span>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button id="btn-gameover-retry" class="btn btn-primary btn-glow">Try Again ⟲</button>
+                    <button class="btn btn-secondary btn-back-menu">Main Menu</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pause Modal -->
+        <div id="modal-pause" class="modal-overlay">
+            <div class="modal-card">
+                <h2>Game Paused</h2>
+                <div class="modal-actions vertical">
+                    <button id="btn-resume" class="btn btn-primary btn-glow">Resume Game</button>
+                    <button id="btn-pause-next" class="btn btn-secondary">Next Level ›</button>
+                    <button id="btn-restart" class="btn btn-secondary">Restart Level</button>
+                    <button class="btn btn-outline btn-back-menu">Quit to Menu</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="modal-settings" class="modal-overlay">
+            <div class="modal-card">
+                <h2>Audio & Settings</h2>
+                <div class="settings-form">
+                    <div class="setting-row">
+                        <label for="setting-sound">Sound Effects</label>
+                        <input type="checkbox" id="setting-sound" checked>
+                    </div>
+                    <div class="setting-row">
+                        <label for="setting-music">Ambient Soundtrack</label>
+                        <input type="checkbox" id="setting-music">
+                    </div>
+                    <div class="setting-row">
+                        <label for="setting-vibration">Haptic Vibration (Mobile)</label>
+                        <input type="checkbox" id="setting-vibration" checked>
+                    </div>
+                    <div class="setting-row slider-row">
+                        <label for="setting-volume">Master Volume</label>
+                        <input type="range" id="setting-volume" min="0" max="100" value="70">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-primary btn-close-modal">Done</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- How to Play / Instructions Modal -->
+        <div id="modal-instructions" class="modal-overlay">
+            <div class="modal-card instructions-card">
+                <h2>How to Play</h2>
+                <div class="instructions-body">
+                    <div class="instruction-item">
+                        <span class="step-num">1</span>
+                        <div>
+                            <strong>Compare the Illustrations</strong>
+                            <p>Carefully inspect both pictures side-by-side. Look for differences in colors, shapes, missing objects, and subtle details.</p>
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="step-num">2</span>
+                        <div>
+                            <strong>Tap to Discover</strong>
+                            <p>Click or tap directly on any difference in either image. Discovered differences are permanently highlighted on both views.</p>
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="step-num">3</span>
+                        <div>
+                            <strong>Zoom & Pan</strong>
+                            <p>Use your mouse wheel, pinch-to-zoom, or on-screen zoom buttons to inspect tiny details. Both images stay perfectly synchronized!</p>
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="step-num">4</span>
+                        <div>
+                            <strong>Hints & Combos</strong>
+                            <p>Need help? Tap the Hint button to reveal a hidden difference. Discover differences without mistakes for combo score multipliers!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-primary btn-close-modal">Got it, Let's Play!</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/audio.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
